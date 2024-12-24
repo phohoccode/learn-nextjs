@@ -3,18 +3,10 @@ export type LinkMap = {
   href: string;
 };
 
-export type Blog = {
-  id: number;
-  username: string;
-  title: string;
-  content: string;
-  time: string;
-};
-
-export type Product = {
+export type Project = {
+  id: string;
   name: string;
   description: string;
-  url?: string;
-  time: string;
-  link: string;
+  demo: string;
+  create_at: string;
 };

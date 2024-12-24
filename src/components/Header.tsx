@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import Search from "./Search";
 import { usePathname } from "next/navigation";
 import type { LinkMap } from "@/lib/type";
+import Auth from "./Auth";
 
 const LinkMap: LinkMap[] = [
   { label: "Trang chủ", href: "/" },
-  { label: "Sản phẩm", href: "/products" },
+  { label: "Dự án", href: "/projects" },
   { label: "Giới thiệu", href: "/about" },
 ];
 
@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center py-[12px] px-[24px] shadow-md sticky top-0 bg-white z-50">
       <div>
-        <h3>PHO-BLOG</h3>
+        <h3>PHOHOCCODE</h3>
       </div>
       <ul className="flex space-x-4">
         {LinkMap.map((item, index: number) => (
@@ -34,7 +34,7 @@ const Header = () => {
         ))}
       </ul>
       <div>
-        <Search />
+        <Auth />
       </div>
     </div>
   );
