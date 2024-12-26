@@ -7,7 +7,7 @@ export const fectAllProjects = async () => {
   return data.rows;
 };
 
-export const item_per_page = 2;
+export const item_per_page = 5;
 export const fetchProjectList = async ({
   currentPage,
 }: {
@@ -19,7 +19,7 @@ export const fetchProjectList = async ({
   const data = await client.query(`
     SELECT * FROM projects 
     ORDER BY create_at DESC
-    LIMIT 2 OFFSET ${offset}  
+    LIMIT ${item_per_page} OFFSET ${offset}  
   `);
 
   console.log(data.rows);

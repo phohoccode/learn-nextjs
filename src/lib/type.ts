@@ -10,3 +10,8 @@ export type Project = {
   demo: string;
   create_at: string;
 };
+
+export type response = {
+  status: "success" | "error";
+  message: string;
+};

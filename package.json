@@ -14,7 +14,9 @@
     "next-auth": "5.0.0-beta.25",
     "nextjs-toploader": "^3.7.15",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-toastify": "^11.0.2",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
