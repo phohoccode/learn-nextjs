@@ -10,7 +10,7 @@ export default function Home() {
         </p>
       </header>
 
-      <section className="w-full max-w-4xl px-6 py-8 bg-white shadow-lg rounded-lg mt-10">
+      <section className="w-full max-w-4xl px-6 py-8 bg-white shadow-lg rounded-md mt-10">
         <h2 className="text-3xl font-semibold text-gray-800">
           Khám Phá Next.js
         </h2>
@@ -22,7 +22,7 @@ export default function Home() {
           <a
             target="_blank"
             href="https://nextjs.org/"
-            className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300"
+            className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition duration-300"
           >
             Tìm Hiểu Thêm
           </a>

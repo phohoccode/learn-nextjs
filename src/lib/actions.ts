@@ -148,6 +148,8 @@ export const createUser = async (
   prevState: any,
   formData: FormData
 ): Promise<response> => {
+  console.log(">>> formData", formData);
+  const username = formData.get("username") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -163,8 +165,8 @@ export const createUser = async (
   }
 
   const user = await sql`
-    INSERT INTO users (email, password) 
-    VALUES (${email}, ${password})
+    INSERT INTO users (name, email, password) 
+    VALUES (${username}, ${email}, ${password})
     RETURNING *
   `;
 

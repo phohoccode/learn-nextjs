@@ -1,9 +1,9 @@
-import About from "@/components/About";
+import Account from "@/components/Account";
 
 const Page = () => {
   return (
     <>
-      <About />
+      <Account />
     </>
   );
 };

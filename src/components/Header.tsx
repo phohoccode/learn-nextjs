@@ -9,17 +9,17 @@ import { useSession } from "next-auth/react";
 const LinkMap: LinkMap[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Dự án", href: "/projects" },
-  { label: "Giới thiệu", href: "/about" },
+  { label: "Tài khoản", href: "/account" },
 ];
 
-const protectedLink = ["/projects"];
+const protectedLink = ["/projects", '/account'];
 
 const Header = () => {
   const pathname = usePathname();
-  const { data: session } = useSession(); // Sửa từ sesstion thành session
+  const { data: session } = useSession();
 
   if (pathname === "/auth/login" || pathname === "/auth/register") {
-    return null; // Không hiển thị header khi ở trang login hoặc register
+    return null; 
   }
 
   return (
@@ -27,7 +27,7 @@ const Header = () => {
       <div>
         <h3>PHOHOCCODE</h3>
       </div>
-      <ul className="flex space-x-4">
+      <ul className="flex space-x-2">
         {LinkMap.map((item, index: number) => {
           if (protectedLink.includes(item.href) && !session) return null;
 
@@ -36,8 +36,8 @@ const Header = () => {
               <Link
                 className={`${
                   pathname === item.href
-                    ? "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    : "py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    ? "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    : "py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 }`}
                 href={item.href}
               >

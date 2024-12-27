@@ -1,8 +1,9 @@
-import NextAuth, { AuthError, CredentialsSignin } from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "./lib/zod";
 import { loginUser } from "./lib/actions";
 import { ZodError } from "zod";
+import GoogleProvider from "next-auth/providers/google";
 
 // export class InvalidLoginError extends AuthError {
 //   code = "invalid_credentials"; // lỗi mặc định
@@ -14,7 +15,10 @@ import { ZodError } from "zod";
 
 export class InvalidLoginError extends AuthError {
   constructor(public code: string, public details?: string) {
+    // kế thừa từ AuthError
     super(details || "Đăng nhập thất bại!");
+
+    // gán đè
     this.code = code;
   }
 }
@@ -32,13 +36,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log(">>> credentials", credentials);
 
         try {
-          // const { email, password } = credentials;
-
-          // Validate the sign in data
           const { email, password } = await signInSchema.parseAsync(
             credentials
           );
-
 
           const user = await loginUser(email as string, password as string);
 
@@ -53,7 +53,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return user;
         } catch (error) {
-          
           // Nếu lỗi là ZodError, thì xử lý lỗi
           if (error instanceof ZodError) {
             console.log(">>> error", error.issues);
@@ -66,17 +65,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   pages: {
     signIn: "/auth/login",
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Nếu URL hiện tại là trang đăng nhập, chuyển hướng về trang khác
-      if (url.startsWith(baseUrl + "/auth/login")) {
-        return baseUrl + "/"; // Trang chuyển hướng mong muốn
+    async jwt({ token, account, profile }: any) {
+      if (account && profile) {
+        console.log(">>> account", account);
+        console.log(">>> profile", profile);
+
+        token.id = profile.sub;
+        token.name = profile.name;
+        token.email = profile.email;
+        token.picture = profile.picture;
       }
-      return url || baseUrl;
+      return token;
+    },
+    async session({ session, token }: any) {
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.image = token.picture;
+      return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });

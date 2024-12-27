@@ -14,4 +14,5 @@ export type Project = {
 export type response = {
   status: "success" | "error";
   message: string;
+  data?: any;
 };
