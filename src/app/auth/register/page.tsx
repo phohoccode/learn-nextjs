@@ -12,9 +12,6 @@ const Page = () => {
   const initState = { status: "idle", message: "" };
   const [state, formAction, pending] = useActionState(createUser, initState);
 
-  useEffect(() => {
-    console.log(">>> pending ", pending);
-  }, [pending]);
 
   // không sử dụng try catch từ server
   useEffect(() => {
@@ -44,7 +41,7 @@ const Page = () => {
     setIsLoading(true);
     const res = await registerUser(email, password);
 
-    console.log(">>> res", res);
+
 
     if (res?.status === "error") {
       toast.error(res?.message);

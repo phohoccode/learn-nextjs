@@ -11,7 +11,7 @@ const ButtonDelete = ({ id }: { id: string }) => {
   const handleDeleteProject = async () => {
     setIsLoading(true);
     const res = await deleteProject(id);
-    console.log(">>> res", res);
+
 
     setIsLoading(false);
 

@@ -93,6 +93,7 @@ export async function loginUser(email: string, password: string) {
       return null;
     }
 
+    console.log(">>> user", user.rows[0]);
     return user.rows[0];
   } catch (error) {
     console.error(error);
@@ -142,13 +143,39 @@ export async function registerUser(
   }
 }
 
+export const fetchUser = async (email: string): Promise<response> => {
+  try {
+    const user = await sql`
+      SELECT * FROM users WHERE email = ${email}
+    `;
+
+    if (user?.rows?.length === 0) {
+      return {
+        status: "error",
+        message: "Người dùng không tồn tại!",
+      };
+    }
+
+    return {
+      status: "success",
+      message: "Lấy thông tin người dùng thành công!",
+      data: user.rows[0],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: "error",
+      message: "Lỗi xảy ra, vui lòng thử lại!",
+    };
+  }
+};
+
 // ========================== Không sử dụng Try-Catch ===========================
 
 export const createUser = async (
   prevState: any,
   formData: FormData
 ): Promise<response> => {
-  console.log(">>> formData", formData);
   const username = formData.get("username") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -195,8 +222,6 @@ export async function authenticate(
       redirect: false,
       callbackUrl: "/",
     });
-
-    console.log(">>> actions-response", response);
 
     return {
       status: "success",

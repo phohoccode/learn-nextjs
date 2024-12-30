@@ -12,6 +12,7 @@ const EditProject = ({ data }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!data) return;
     setProjectName(data.name);
     setProjectDescription(data.description);
     setProjectDemo(data.demo);

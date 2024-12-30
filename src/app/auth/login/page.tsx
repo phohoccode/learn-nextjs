@@ -25,7 +25,6 @@ const Page = () => {
     setIsLoading(true);
     const res = await authenticate(email, password);
 
-    console.log(">>> res", res);
 
     if (res?.status === "error") {
       toast.error(res?.message);

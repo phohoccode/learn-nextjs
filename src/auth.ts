@@ -1,7 +1,7 @@
-import NextAuth, { AuthError } from "next-auth";
+import NextAuth, { AuthError, User } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "./lib/zod";
-import { loginUser } from "./lib/actions";
+import { fetchUser, loginUser } from "./lib/actions";
 import { ZodError } from "zod";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const user = await loginUser(email as string, password as string);
 
-          console.log(">>> user", user);
+          console.log(">>> user-login", user);
 
           if (!user) {
             throw new InvalidLoginError(
@@ -74,20 +74,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/auth/login",
   },
   callbacks: {
-    async jwt({ token, account, profile }: any) {
-      if (account && profile) {
-        console.log(">>> account", account);
-        console.log(">>> profile", profile);
+    async jwt({ token, user, account, profile }: any) {
+      console.log(">>> jwt", token);
+      const dataUser: any = await fetchUser(token.email);
 
+      if (profile && account) {
         token.id = profile.sub;
         token.name = profile.name;
         token.email = profile.email;
         token.picture = profile.picture;
       }
+      
+      token.role = dataUser?.data?.role ?? "guest";
+
+      console.log(">>> jwt-token", token);
       return token;
     },
     async session({ session, token }: any) {
+      const user: any = await fetchUser(token.email);
+
       session.user.id = token.id;
+      session.user.role = user?.data?.role;
       session.user.name = token.name;
       session.user.email = token.email;
       session.user.image = token.picture;

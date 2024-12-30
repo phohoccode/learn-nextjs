@@ -14,7 +14,7 @@ export const fetchProjectList = async ({
   currentPage: number;
 }) => {
   const offset = (currentPage - 1) * item_per_page;
-  console.log("offset", offset);
+
 
   const data = await client.query(`
     SELECT * FROM projects 
@@ -22,7 +22,6 @@ export const fetchProjectList = async ({
     LIMIT ${item_per_page} OFFSET ${offset}  
   `);
 
-  console.log(data.rows);
   return data.rows;
 };
 
