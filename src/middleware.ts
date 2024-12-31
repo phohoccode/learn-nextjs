@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { getToken } from "next-auth/jwt";
+
+const allowedPaths = ["/projects", "/project-management"];
 
 export async function middleware(request: NextRequest) {
   const url = request.url;
@@ -11,12 +11,11 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  console.log(">>> request", request);
-  console.log(">>> token", token);
-  console.log(">>> pathname", pathname);
-
   if (token) {
-    if (pathname === "/projects" && token.role === "admin") {
+    const isAllowedParth = allowedPaths.some((path) =>
+      pathname.startsWith(path)
+    );
+    if (isAllowedParth && token.role === "admin") {
       return NextResponse.next();
     } else {
       return NextResponse.json(

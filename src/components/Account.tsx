@@ -16,16 +16,18 @@ const Account = () => {
     <>
       {session?.user && (
         <div className="flex gap-5">
-          <div className="relative">
-            <Image
-              className="rounded-full"
-              src={image as string}
-              alt="avartar"
-              width={90}
-              height={90}
-            />
-            <span className="top-2 right-1 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-          </div>
+          {image && (
+            <div className="relative">
+              <Image
+                className="rounded-full"
+                src={image as string}
+                alt="avartar"
+                width={90}
+                height={90}
+              />
+              <span className="top-2 right-1 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+            </div>
+          )}
           <div className="flex items-start justify-start flex-col gap-2">
             <h1 className="text-blue-600">
               Tên người dùng: <span className="text-black">{username}</span>

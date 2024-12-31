@@ -9,17 +9,18 @@ import { useSession } from "next-auth/react";
 const LinkMap: LinkMap[] = [
   { label: "Trang chủ", href: "/" },
   { label: "Dự án", href: "/projects" },
+  { label: "Sản phẩm", href: "/products" },
   { label: "Tài khoản", href: "/account" },
 ];
 
-const protectedLink = ["/projects", '/account'];
+const protectedLink = ["/projects", "/account"];
 
 const Header = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
 
   if (pathname === "/auth/login" || pathname === "/auth/register") {
-    return null; 
+    return null;
   }
 
   return (

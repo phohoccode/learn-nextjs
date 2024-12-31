@@ -1,7 +1,10 @@
 const Page = () => {
-  return ( <div>
-    guest
-  </div> );
-}
- 
+  return (
+    <div>
+      guest
+      <h2></h2>
+    </div>
+  );
+};
+
 export default Page;
